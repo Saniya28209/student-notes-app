@@ -208,7 +208,7 @@ function openNote(card) {
     .pop();   // now currentNoteId = pure ID like "12345"
     document.getElementById("modalEditBtn").onclick = () => {
         if (currentNoteId) {
-            window.location.href = currentNoteId;
+            window.location.href = `/notes/edit/${currentNoteId}`;
         }
     };
     document.getElementById("noteModal").style.display = "flex";
@@ -304,4 +304,5 @@ function confirmDelete(noteId) {
     }
 </script>
 </body>
+
 </html>
