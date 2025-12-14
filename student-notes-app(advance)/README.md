@@ -58,7 +58,7 @@ npm install
 
 ### 4. Create a `.env` file  
 Use this format:
-MONGO_URL=
+MONGO_URI=
 PORT=3000
 
 ### 5. Start the server
@@ -74,7 +74,7 @@ http://localhost:3000/
 This project requires the following environment variables  
 (**lol I ain't stupid , work with your own credentials 😭**):
 
-MONGO_URL=
+MONGO_URI=
 PORT=
 
 ---
@@ -120,6 +120,7 @@ And if you have tips, advice, or project ideas, I would love to hear them.
 If I seem tolerable enough, we can collaborate too 😄  
 
 ***Toodles!***
+
 
 
 
