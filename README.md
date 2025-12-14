@@ -47,7 +47,7 @@ student-notes-app/
 ## ⚙️ Installation & Setup
 
 ### 1. Clone the repository
-git clone https://github.com/your-username
+git clone https://github.com/Saniya28209
 student-notes-app.git
 
 ### 2. Go into the project folder
@@ -58,7 +58,7 @@ npm install
 
 ### 4. Create a `.env` file  
 Use this format:
-MONGO_URL=
+MONGO_URI=
 PORT=3000
 
 ### 5. Start the server
@@ -74,7 +74,7 @@ http://localhost:3000/
 This project requires the following environment variables  
 (**lol I ain't stupid , work with your own credentials 😭**):
 
-MONGO_URL=
+MONGO_URI=
 PORT=
 
 ---
@@ -94,7 +94,7 @@ PORT=
 
 ## 🙋‍♀️ About the Developer
 
-Developed by **Sam** —  
+Developed by **Saniya** —  
 Hi there GitHub! Just a normal average BCA student trying her level best to improve herself and *not* pull her hair out from all the errors 😭.
 
 My interests are in the field of:  
@@ -120,6 +120,7 @@ And if you have tips, advice, or project ideas, I would love to hear them.
 If I seem tolerable enough, we can collaborate too 😄  
 
 ***Toodles!***
+
 
 
 
