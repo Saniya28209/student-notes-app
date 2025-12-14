@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Notes</title>
+    <link rel="stylesheet" href="/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+<!-- SIDEBAR -->
+<div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+        <h2 class="logo">Student Notes</h2>
+    </div>
+
+    <a href="/notes"><span class="icon">📚</span><span class="text">All Notes</span></a>
+    <a href="/notes/add"><span class="icon">➕</span><span class="text">Add Note</span></a>
+    <a href="/logout"><span class="icon">🚪</span><span class="text">Logout</span></a>
+</div>
+
+<!-- TOGGLE BUTTON → always visible -->
+<button class="toggle-btn" id="toggle-btn">☰</button>
+
+
+<!-- MAIN CONTENT -->
+<div class="main-content">
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+        <h1 class="page-title">My Notes</h1>
+
+        <!-- Search Bar -->
+        <form class="searchbar" action="/notes/search" method="GET">
+            <div class="search-container">
+                <span class="search-icon">🔍</span>
+                <input id="searchInput" type="text" name="q" placeholder="Search notes..." autocomplete="off">
+            </div>
+        </form>
+
+        <!-- Profile -->
+        <div class="profile">
+            <img src="/profile.png" class="avatar">
+            <span class="username"><%= user %></span>
+        </div>
+    </div>
+
+    <!-- NOTES GRID -->
+    <div class="notes-grid">
+
+        <% notes.forEach((note, index) => { %>
+            <% 
+                const colors = ["color-yellow","color-pink","color-blue","color-green","color-orange"];
+                const randomColor = colors[index % colors.length];
+            %>
+
+            <div class="card <%= randomColor %>" onclick="openNote(this)" data-fullcontent="<%= note.content %>">
+                <h3 class="note-title"><%= note.title %></h3>
+                <p class="note-content"><%= note.content.substring(0,100) %>...</p>
+                <div class="note-tags">
+                    <% let tagList = [];
+                    if (typeof note.tags === "string") {
+                        tagList = note.tags.split(',').map(t => t.trim()).filter(t => t.length > 0);
+                    } 
+                    else if (Array.isArray(note.tags)) {
+                        tagList = note.tags;
+                    }
+                    %>
+                    <% tagList.forEach(tag => { %>
+                        <span class="tag-badge"><%= tag %></span>
+                        <% }) %>
+                </div>
+                <div class="card-buttons" style="display:none;">
+                    <a class="btn" href="/notes/edit/<%= note._id %>">Edit</a>
+
+                    <form action="/notes/<%= note._id %>?_method=DELETE" method="POST">
+                        <button type="submit">Delete</button>
+                    </form>
+                </div>
+            </div>
+
+        <% }) %>
+
+    </div>
+<!-- NOTE MODAL -->
+<div id="noteModal" class="modal-overlay" style="display: none;">
+    <div class="modal">
+        <button class="modal-close" onclick="closeModal()">&times;</button>
+
+        <h3 id="modalTitle"></h3>
+        <p id="modalContent"></p>
+        <div id="modalTags"></div>
+
+        <div class="modal-actions">
+            <button class="icon-btn" id="modalEditBtn" type="button">
+                <i data-feather="edit"></i>
+            </button>
+            <button class="icon-btn delete"  onclick="confirmDelete(currentNoteId.split('/').pop())">
+                <i data-feather="trash-2"></i>
+            </button>
+        </div>
+
+    </div>
+</div>
+
+
+</div>
+<div id="toast-container"></div>
+<script>
+    document.getElementById("toggle-btn").addEventListener("click", function () {
+        const sidebar = document.querySelector(".sidebar");
+        const main = document.querySelector(".main-content");
+
+        sidebar.classList.toggle("collapsed");
+        main.classList.toggle("shifted");
+    });
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const searchInput = document.getElementById("searchInput");
+    const noteCards = Array.from(document.querySelectorAll(".card"));
+
+    // If no search input found, do nothing (safety)
+    if (!searchInput) return;
+
+    // Helper: normalize text for comparison
+    const norm = str => (str || "").toLowerCase();
+
+    searchInput.addEventListener("input", () => {
+        const q = norm(searchInput.value.trim());
+
+        // If empty query -> show all
+        if (!q) {
+            noteCards.forEach(c => {
+                c.style.display = "";
+                c.style.opacity = "1";
+                c.style.transform = "";
+            });
+            // hide no-results if present
+            const noRes = document.getElementById("noResults");
+            if (noRes) noRes.style.display = "none";
+            return;
+        }
+
+        let visibleCount = 0;
+        noteCards.forEach(card => {
+            const title = norm(card.querySelector(".note-title")?.innerText);
+            const content = norm(card.querySelector(".note-content")?.innerText);
+            const tags = norm(card.querySelector(".note-tags")?.innerText);
+
+            if (title.includes(q) || content.includes(q) || tags.includes(q)) {
+                // show card (with nice fade in)
+                card.style.display = "";
+                card.style.opacity = "1";
+                card.style.transform = "translateY(0)";
+                visibleCount++;
+            } else {
+                // hide card (with nice fade out)
+                card.style.opacity = "0";
+                card.style.transform = "translateY(8px)";
+                // delay the `display:none` so transition can run
+                setTimeout(() => {
+                    if (card.style.opacity === "0") card.style.display = "none";
+                }, 180);
+            }
+        });
+
+        // show "no results" message if nothing matches
+        let noResults = document.getElementById("noResults");
+        if (!noResults) {
+            noResults = document.createElement("div");
+            noResults.id = "noResults";
+            noResults.textContent = "No notes found.";
+            noResults.style.padding = "30px";
+            noResults.style.fontSize = "18px";
+            noResults.style.color = "#666";
+            noResults.style.gridColumn = "1 / -1"; // full width in grid
+            document.querySelector(".notes-grid").appendChild(noResults);
+        }
+        noResults.style.display = visibleCount ? "none" : "block";
+    });
+});
+</script>
+<script>
+// Modal functions
+let currentNoteId = null;
+
+function openNote(card) {
+    const title = card.querySelector(".note-title").innerText;
+    const content = card.getAttribute("data-fullcontent");
+    const tags = card.querySelector(".note-tags").innerHTML;
+
+    document.getElementById("modalTitle").innerText = title;
+    document.getElementById("modalContent").innerText = content;
+    document.getElementById("modalTags").innerHTML = tags;
+
+    // 🔥 Get card color class (e.g., "color-blue")
+    const colorClass = [...card.classList].find(c => c.startsWith("color-"));
+
+    // 🔥 Apply same color to modal
+    const modalBox = document.querySelector(".modal");
+    modalBox.classList.remove("color-yellow","color-pink","color-blue","color-green","color-orange");
+    if (colorClass) modalBox.classList.add(colorClass);
+
+    // Set edit link dynamically
+    currentNoteId = card.querySelector(".card-buttons a")
+    ?.getAttribute("href")
+    ?.split("/")
+    .pop();   // now currentNoteId = pure ID like "12345"
+    document.getElementById("modalEditBtn").onclick = () => {
+        if (currentNoteId) {
+            window.location.href = currentNoteId;
+        }
+    };
+    document.getElementById("noteModal").style.display = "flex";
+}
+
+
+function closeModal() {
+    document.getElementById("noteModal").style.display = "none";
+}
+
+function deleteNote() {
+    if (!currentNoteId) return;
+
+    if (confirm("Are you sure you want to delete this note?")) {
+        fetch(`/notes/${currentNoteId.split("/").pop()}`, {
+            method: 'DELETE'
+        }).then(() => {
+            window.location.href = "/notes?deleted=1"; // 🔥 force redirect
+        });
+    }
+}
+
+// Close modal when clicking outside content
+window.onclick = function(event) {
+    const modal = document.getElementById("noteModal");
+    if (event.target == modal) closeModal();
+}
+</script>
+<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+<script>
+    feather.replace();
+</script>
+<script>
+function showToast(toastMessage) {
+    const container = document.getElementById("toast-container");
+
+    const toast = document.createElement("div");
+    toast.classList.add("toast");
+    toast.textContent = toastMessage;
+
+    container.appendChild(toast);
+
+    setTimeout(() => {
+        toast.remove();
+    }, 3000);
+}
+</script>
+<script>
+// Remove ?added=1 or ?edited=1 or ?deleted=1 from URL after showing toast
+if (window.location.search.includes("added") ||
+    window.location.search.includes("edited") ||
+    window.location.search.includes("deleted")) {
+    
+    const cleanUrl = window.location.origin + window.location.pathname;
+    window.history.replaceState({}, document.title, cleanUrl);
+}
+</script>
+<script>
+function confirmDelete(noteId) {
+    const confirmBox = document.createElement("div");
+    confirmBox.className = "sweetalert-bg";
+
+    confirmBox.innerHTML = `
+        <div class="sweetalert-box">
+            <h3>Are you sure?</h3>
+            <p>This action cannot be undone.</p>
+            <div class="sw-buttons">
+                <button class="sw-cancel">Cancel</button>
+                <button class="sw-delete">Delete</button>
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(confirmBox);
+
+    confirmBox.querySelector(".sw-cancel").onclick = () => confirmBox.remove();
+
+    confirmBox.querySelector(".sw-delete").onclick = () => {
+        fetch("/notes/" + noteId, { method: "DELETE" })
+            .then(() => {
+                confirmBox.remove();
+                showToast("Note deleted successfully 🗑️");
+                setTimeout(() => location.reload(), 800);
+            });
+    };
+}
+</script>
+<script>
+    const toastMessage = "<%= toastMessage || '' %>";
+
+    if (toastMessage) {
+        showToast(toastMessage);
+    }
+</script>
+</body>
+</html>

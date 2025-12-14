@@ -1,0 +1,167 @@
+/* ----- GLOBAL ----- */
+body {
+    margin: 0;
+    font-family: "Poppins", sans-serif;
+    background: #6a104a;      /* softened violet */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.login-wrapper {
+    width: 900px;
+    height: 520px;
+    background: white;
+    border-radius: 20px;
+    display: flex;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.25);
+}
+
+/* ----- LEFT PANEL ----- */
+.left-panel {
+    width: 45%;
+    background: linear-gradient(135deg, #d46ea6, #b14f87);
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.overlay-shape {
+    position: absolute;
+    width: 90%;
+    height: 70%;
+    background: linear-gradient(135deg, #e59dc5, #c86ca5);
+    border-radius: 12px;
+    clip-path: polygon(0 0, 100% 0, 75% 100%, 0 100%);
+}
+
+.tab-box {
+    position: relative;
+    text-align: center;
+    color: white;
+}
+
+.active-tab {
+    background: white;
+    color: #b14f87;
+    padding: 10px 28px;
+    font-weight: 600;
+    border-radius: 30px;
+    display: inline-block;
+    margin-bottom: 15px;
+}
+
+.inactive-tab {
+    display: block;
+    margin-top: 10px;
+    opacity: 0.7;
+}
+
+/* ----- RIGHT PANEL ----- */
+.right-panel {
+    width: 55%;
+    padding: 40px 50px;
+    text-align: center;
+}
+
+.icon-circle {
+    width: 80px;
+    height: 80px;
+    background: #f3e1ef;
+    border-radius: 50%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.icon-circle img {
+    width: 45px;
+}
+
+.login-title {
+    margin-top: 15px;
+    font-size: 22px;
+    color: #7a2b5e;
+    letter-spacing: 1px;
+}
+
+/* ----- INPUTS ----- */
+.login-form {
+    margin-top: 25px;
+}
+
+.input-box {
+    width: 100%;
+    border-bottom: 1.8px solid #d5d5d5;
+    display: flex;
+    align-items: center;
+    margin-bottom: 22px;
+}
+
+.input-box i {
+    font-style: normal;
+    margin-right: 8px;
+    color: #7a2b5e;
+}
+
+.input-box input {
+    width: 100%;
+    border: none;
+    outline: none;
+    padding: 10px 0;
+    font-size: 15px;
+    background: transparent;
+}
+
+.forgot-link {
+    display: block;
+    text-align: left;
+    font-size: 12px;
+    color: #aaa;
+    margin-bottom: 15px;
+    text-decoration: none;
+}
+
+/* ----- LOGIN BUTTON ----- */
+.login-button {
+    width: 120px;
+    padding: 10px;
+    font-size: 15px;
+    background: #d46ea6;
+    border: none;
+    color: white;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.login-button:hover {
+    background: #b14f87;
+}
+
+/* ----- SOCIAL LOGINS ----- */
+.social-login {
+    margin-top: 25px;
+    font-size: 13px;
+}
+
+.social-icons {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+}
+
+.social-icons img {
+    width: 28px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.social-icons img:hover {
+    transform: scale(1.1);
+}

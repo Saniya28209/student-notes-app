@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Note</title>
+    <link rel="stylesheet" href="/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+
+<body class="add-note-body">
+
+    <div class="add-note-container">
+        <div class="note-paper">
+            <h2 class="paper-title">Edit Note</h2>
+
+            <!-- Edit Note Form -->
+            <form action="/notes/<%= note._id %>?_method=PUT" method="POST">
+
+                <!-- Title Input -->
+                <input 
+                    type="text" 
+                    name="title"
+                    class="note-title-input"
+                    value="<%= note.title %>"
+                    placeholder="Title"
+                    required
+                >
+
+                <!-- Content Input -->
+                <textarea 
+                    name="content" 
+                    class="note-textarea" 
+                    required><%= note.content %></textarea>
+
+                <!-- Hidden TAG INPUT (not shown directly) -->
+                <input 
+                    type="hidden"
+                    id="tags"
+                    name="tags"
+                    value="<%= note.tags ? note.tags.join(', ') : '' %>"
+                >
+
+                <!-- Button that triggers popup -->
+                <button type="button" id="updateBtn" class="save-btn">
+                    Update Note
+                </button>
+
+            </form>
+        </div>
+
+        <!-- Popup Overlay -->
+        <div class="popup-overlay" id="popupOverlay">
+            <div class="popup-box">
+                <h3>Edit Tags Before Saving</h3>
+
+                <input 
+                    type="text" 
+                    id="popupTags" 
+                    class="note-tags-input"
+                    placeholder="Enter tags separated by commas"
+                >
+
+                <button type="button" id="popupSaveBtn" class="popup-btn">
+                    Save & Update
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        const popupOverlay = document.getElementById('popupOverlay');
+        const updateBtn = document.getElementById('updateBtn');
+        const popupTagsInput = document.getElementById('popupTags');
+        const tagsInput = document.getElementById('tags');
+        const popupSaveBtn = document.getElementById('popupSaveBtn');
+        const form = document.querySelector("form");
+
+        // Open popup when clicking Update Note
+        updateBtn.addEventListener("click", () => {
+            popupTagsInput.value = tagsInput.value;   // Pre-fill
+            popupOverlay.style.display = "flex";
+        });
+
+        // Save and submit
+        popupSaveBtn.addEventListener("click", () => {
+            tagsInput.value = popupTagsInput.value;   // Write back
+            popupOverlay.style.display = "none";
+            form.submit();  // Submit form
+        });
+
+        // Close popup when clicking outside
+        popupOverlay.addEventListener("click", (e) => {
+            if (e.target === popupOverlay) {
+                popupOverlay.style.display = "none";
+            }
+        });
+    </script>
+
+</body>
+</html>

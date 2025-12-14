@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tags</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+<div class="sidebar">
+    <h2>Student Notes</h2>
+    <a href="/notes">📚 All Notes</a>
+    <a href="/notes/add">➕ Add Note</a>
+    <a href="/tags">🏷 Tags</a>
+    <a href="/logout">🚪 Logout</a>
+</div>
+
+<div class="main-content">
+    <h1>Tags</h1>
+
+    <form action="/tags" method="POST">
+        <input type="text" name="name" placeholder="Enter tag name" required>
+        <button type="submit">Add Tag</button>
+    </form>
+
+    <ul>
+        <% tags.forEach(tag => { %>
+            <li>
+                <%= tag.name %>
+                <form action="/tags/<%= tag._id %>?_method=DELETE" method="POST" style="display:inline;">
+                    <button type="submit">Delete</button>
+                </form>
+            </li>
+        <% }) %>
+    </ul>
+
+</div>
+
+</body>
+</html>

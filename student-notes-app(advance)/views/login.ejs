@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" href="/login.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+
+<body class="login-body">
+
+    <div class="login-wrapper">
+
+        <!-- LEFT DESIGN PANEL -->
+        <div class="left-panel">
+            <div class="overlay-shape"></div>
+
+            <div class="tab-box">
+                <span class="active-tab">LOGIN</span>
+                <a href="/register" class="inactive-tab">SIGN UP</a>
+            </div>
+        </div>
+
+        <!-- RIGHT LOGIN PANEL -->
+        <div class="right-panel">
+            <div class="icon-circle">
+                <img src="https://cdn-icons-png.flaticon.com/512/1144/1144760.png" alt="user">
+            </div>
+
+            <h2 class="login-title">LOGIN</h2>
+
+            <form action="/login" method="POST" class="login-form">
+
+                <div class="input-box">
+                    <i class="icon">👤</i>
+                    <input type="email" name="email" placeholder="Email" required>
+                </div>
+
+                <div class="input-box">
+                    <i class="icon">🔒</i>
+                    <input type="password" name="password" placeholder="Password" required>
+                </div>
+
+                <a href="#" class="forgot-link">Forgot Password?</a>
+
+                <button type="submit" class="login-button">LOGIN</button>
+            </form>
+
+            <div class="social-login">
+                <span>Or Login With</span>
+
+                <div class="social-icons">
+                    <img src="https://cdn-icons-png.flaticon.com/512/300/300221.png">
+                    <img src="https://cdn-icons-png.flaticon.com/512/2504/2504903.png">
+                    <img src="https://cdn-icons-png.flaticon.com/512/2504/2504911.png">
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

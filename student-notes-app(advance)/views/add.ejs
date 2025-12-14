@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Note</title>
+
+    <link rel="stylesheet" href="/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+
+<body class="add-note-body">
+
+    <div class="add-note-container">
+
+        <!-- IMPORTANT: Added id="noteForm" -->
+        <form action="/notes" method="POST" id="noteForm">
+
+            <div class="note-paper">
+
+                <h2 class="paper-title">Create a Note</h2>
+
+                <input 
+                    type="text" 
+                    name="title" 
+                    class="note-title-input" 
+                    placeholder="Title..." 
+                    required
+                >
+
+                <textarea 
+                    name="content" 
+                    class="note-textarea" 
+                    placeholder="Write your note here..." 
+                    required
+                ></textarea>
+
+                <!-- Hidden tag field -->
+                <input type="hidden" name="tags" id="tagInput">
+
+                <!-- IMPORTANT: Added id="saveBtn" and changed type -->
+                <button type="button" id="saveBtn" class="save-btn">Save Note</button>
+
+            </div>
+
+        </form>
+    </div>
+
+
+    <!-- POPUP -->
+    <div class="popup-overlay" id="popup">
+        <div class="popup-box">
+            <h3>Add Tags</h3>
+            <input type="text" id="tagPopupField" placeholder="Eg: important, work, study">
+            <button class="popup-btn" id="popupSave">Save Note</button>
+        </div>
+    </div>
+
+
+    <!-- POPUP LOGIC FIXED -->
+    <script>
+        const saveBtn = document.getElementById("saveBtn");
+        const popup = document.getElementById("popup");
+        const popupSave = document.getElementById("popupSave");
+        const form = document.getElementById("noteForm");
+
+        // Step 1 — Open popup
+        saveBtn.addEventListener("click", () => {
+            popup.style.display = "flex";
+        });
+
+        // Step 2 — Save tags + submit form
+        popupSave.addEventListener("click", () => {
+            const tags = document.getElementById("tagPopupField").value;
+            document.getElementById("tagInput").value = tags;
+
+            form.submit();
+        });
+    </script>
+
+</body>
+</html>
+
+
+

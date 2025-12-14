@@ -1,0 +1,751 @@
+/* GLOBAL */
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: #f5f5f5;
+}
+
+/* -------------------- SIDEBAR -------------------- */
+
+.sidebar {
+    width: 220px;
+    background: #ffffff;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    padding: 25px;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+    transition: width 0.3s ease;
+    overflow: hidden;
+}
+
+/* Collapsed */
+.sidebar.collapsed {
+    width: 70px;
+}
+
+/* Sidebar header */
+.sidebar-header {
+    display: flex;
+    align-items: center;
+    margin-top: 80px;
+}
+
+.logo {
+    font-size: 22px;
+    font-weight: 600;
+    transition: opacity 0.3s;
+}
+
+.sidebar.collapsed .logo {
+    opacity: 0;
+}
+
+/* Sidebar Links */
+.sidebar a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 14px 0;
+    font-size: 17px;
+    color: #333;
+    text-decoration: none;
+    padding: 8px 0;
+    transition: 0.25s;
+    white-space: nowrap;
+}
+
+.sidebar a:hover {
+    background: #f0f0f0;
+}
+
+.sidebar a .icon {
+    width: 26px;
+    font-size: 20px;
+}
+
+.sidebar.collapsed a .text {
+    display: none;
+}
+
+/* -------------------- TOGGLE BUTTON -------------------- */
+
+.toggle-btn {
+    position: fixed;
+    left: 15px;               /* attach to edge */
+    top: 25px;                /* looks aligned with headings */
+    background: #550404;
+    border: none;
+    font-size: 26px;
+    cursor: pointer;
+    z-index: 2000;            /* stays on top of everything */
+    padding: 8px 12px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    transition: left 0.3s ease;
+}
+
+/* When sidebar collapses */
+.sidebar.collapsed ~ .toggle-btn {
+    left: 15px;   /* don't move — stays clean */
+}
+
+
+
+/* -------------------- MAIN CONTENT -------------------- */
+
+.main-content {
+    margin-left: 240px;
+    transition: margin-left 0.3s ease;
+    padding-top: 110px;
+}
+
+.sidebar.collapsed ~ .main-content {
+    margin-left: 90px;
+}
+
+/* -------------------- TOPBAR -------------------- */
+
+.topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 30px;
+    background: white;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    position: fixed;
+    z-index: 9997;
+    top: 0;
+    left: 270px;
+    width: calc(100% - 240px);
+    transition: left 0.3s, width 0.3s;
+}
+
+.sidebar.collapsed ~ .main-content .topbar {
+    left: 90px;
+    width: calc(100% - 90px);
+}
+
+.page-title {
+    font-size: 28px;
+    font-weight: 600;
+}
+
+/* -------------------- SEARCH BAR -------------------- */
+
+.searchbar {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.search-container {
+    position: relative;
+    width: 380px;
+}
+
+.search-container input {
+    width: 100%;
+    padding: 12px 18px 12px 40px;
+    border-radius: 50px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+    outline: none;
+    background: #fafafa;
+    transition: 0.2s;
+}
+
+.search-container input:focus {
+    border-color: #999;
+    background: #fff;
+}
+
+.search-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    opacity: 0.6;
+}
+
+/* -------------------- PROFILE -------------------- */
+
+.profile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-right: 80px;
+}
+
+.avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* -------------------- NOTES GRID -------------------- */
+
+.notes-grid {
+    padding: 20px 30px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 40px;
+    margin-top: 60px;
+}
+
+/* -------------------- NOTE CARDS -------------------- */
+
+.card {
+    padding: 20px;
+    border-radius: 12px;
+    min-height: 180px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    position: relative;
+    overflow: hidden;   /* prevents badges from jumping out */
+    padding-bottom: 45px; /* space so badges don’t overlap content */
+}
+
+.color-orange { background-color: #d523ec; }
+.color-pink   { background-color: #ea377c; }
+.color-blue   { background-color: #4f94da; }
+.color-green  { background-color: #40dd35; }
+.color-yellow { background-color: #e7f344; }
+
+.card-buttons {
+    margin-top: 15px;
+    display: flex;
+    gap: 10px;
+}
+
+button, .btn {
+    background: #333;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+.card h3 {
+    font-size: 22px;
+    font-weight: 600;
+}
+
+.card p {
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.4;
+    opacity: 0.9;
+}
+/* Card hover pop */
+.card {
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 8px 22px rgba(0,0,0,0.15);
+}
+
+/* Card appear animation */
+.card {
+    opacity: 0;
+    animation: cardFade 0.45s ease forwards;
+}
+
+@keyframes cardFade {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+/* Button hover animation */
+button, .btn, .icon-btn {
+    transition: background 0.25s ease, transform 0.2s ease;
+}
+
+/* Slight lift on hover */
+button:hover, .btn:hover, .icon-btn:hover {
+    transform: translateY(-2px);
+}
+
+/* Click animation */
+button:active, .btn:active, .icon-btn:active {
+    transform: scale(0.95);
+}
+
+/* -------------------- ADD NOTE PAGE (scoped to body.add-note-body) -------------------- */
+/* Ensure this is at the end of the file so it overrides earlier rules if necessary */
+
+body.add-note-body {
+    background: linear-gradient(135deg, #fbe570, #f7d969);
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    min-height: 100vh;
+}
+
+/* Hide the global app chrome on the add-note page */
+/* body.add-note-body .sidebar,
+body.add-note-body .toggle-btn,
+body.add-note-body .topbar,
+body.add-note-body .main-content {
+    display: none !important;
+} */
+
+body.add-note-body .sidebar,
+body.add-note-body .topbar,
+body.add-note-body .main-content {
+    display: none !important;
+}
+
+/* Allow toggle button to remain visible */
+body.add-note-body .toggle-btn {
+    display: block !important;
+}
+
+/* Center container */
+body.add-note-body .add-note-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 60px 20px;
+}
+
+/* NOTE PAPER CARD */
+body.add-note-body .note-paper {
+    width: 420px;
+    min-height: 500px;
+    background: #fff;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0px 10px 25px rgba(0,0,0,0.1);
+    border: 1px solid #eee;
+
+    /* paper grid background */
+    background-image:
+        linear-gradient(#e6e6e6 1px, transparent 1px),
+        linear-gradient(90deg, #e6e6e6 1px, transparent 1px);
+    background-size: 32px 32px;
+}
+
+/* Title inside the paper */
+body.add-note-body .paper-title {
+    text-align: center;
+    margin-bottom: 15px;
+    font-size: 22px;
+    color: #393939;
+}
+
+/* Inputs */
+body.add-note-body .note-title-input,
+body.add-note-body .note-tags-input {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    border-bottom: 2px solid #ddd;
+    margin-bottom: 14px;
+    background: transparent;
+}
+
+/* Textarea */
+body.add-note-body .note-textarea {
+    width: 100%;
+    height: 320px;
+    border: none;
+    outline: none;
+    resize: none;
+    font-size: 17px;
+    background: transparent;
+    line-height: 32px;
+    padding-left: 10px;
+}
+
+/* Save button */
+body.add-note-body .save-btn {
+    width: 420px;
+    margin: 20px auto 0;
+    display: block;
+    background-color: #f6d055;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 20px;
+    padding: 14px;
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.15);
+    transition: 0.2s;
+    font-weight: 500;
+}
+
+body.add-note-body .save-btn:hover {
+    background-color: #ffc20c;
+    transform: translateY(-6px);
+}
+/*———————————————*
+   TAG POPUP OVERLAY
+*———————————————*/
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.45);
+    display: none;              /* Hidden by default */
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+#tags {
+    opacity: 0;
+    height: 0;
+    pointer-events: none;
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+
+
+/*———————————————*
+   POPUP BOX
+*———————————————*/
+.popup-box {
+    background: #ffffff;
+    padding: 25px;
+    width: 340px;
+    border-radius: 14px;
+    box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    animation: popupShow 0.2s ease-out;
+}
+
+.popup-box h3 {
+    font-size: 20px;
+    margin-bottom: 30px;
+    font-weight: 600;
+}
+
+/*———————————————*
+   POPUP INPUT
+*———————————————*/
+.popup-box input {
+    width: 85%;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    margin-bottom: 16px;
+    font-size: 15px;
+    outline: none;
+}
+
+/*———————————————*
+   POPUP BUTTON
+*———————————————*/
+.popup-btn {
+    width: 70%;
+    margin-top: 20px;
+    padding: 12px;
+    background: #f3c63b;
+    color: #333;
+    font-size: 16px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+.popup-btn:hover {
+    background: #e2b32e;
+}
+
+/*———————————————*
+   POPUP ANIMATION
+*———————————————*/
+@keyframes popupShow {
+    from {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+/* ---------------------- */
+/* AUTO THEME FOR MODAL   */
+/* ---------------------- */
+
+:root {
+    --modal-bg: #ffffff;
+    --modal-text: #222222;
+    --modal-border: #dddddd;
+    --modal-overlay: rgba(0, 0, 0, 0.4);
+}
+
+/* Dark Mode Variables */
+body.dark-mode {
+    --modal-bg: #1f1f1f;
+    --modal-text: #f1f1f1;
+    --modal-border: #333333;
+    --modal-overlay: rgba(255, 255, 255, 0.1);
+}
+
+/* Modal Overlay */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--modal-overlay);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(4px);
+    z-index: 9998;
+}
+
+/* Modal Box */
+.modal {
+    position: relative;  /* FIX BUTTON POSITION */
+    background: var(--modal-bg) !important;  /* force theme color */
+    color: var(--modal-text);
+    padding: 25px 30px;
+    border-radius: 16px;
+    width: 420px;
+    max-width: 90%;
+    border: 1px solid var(--modal-border);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    animation: popUp 0.25s ease;
+    z-index: 9999;
+}
+
+
+/* Pop animation */
+@keyframes popUp {
+    from {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Close button */
+.modal-close {
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--modal-text);
+    cursor: pointer;
+    position: absolute;
+    top: 12px;
+    right: 16px;
+}
+/* Card color classes also apply to modal */
+.modal.color-yellow { background-color: #f7e967 !important; }
+.modal.color-pink   { background-color: #ff5fa2 !important; }
+.modal.color-blue   { background-color: #4da6ff !important; }
+.modal.color-green  { background-color: #4cd964 !important; }
+.modal.color-orange { background-color: #d441e7 !important; }
+
+/* Make text readable */
+.modal.color-yellow,
+.modal.color-pink,
+.modal.color-blue,
+.modal.color-green,
+.modal.color-orange {
+    color: #000000 !important;
+}
+#modalContent {
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
+
+}
+.modal-actions {
+    display: flex;
+    gap: 14px;
+    margin-top: 20px;
+}
+
+.icon-btn {
+    width: 45px;
+    height: 42px;
+    background: rgba(0, 0, 0, 0.25);
+    border: none;
+    border-radius: 14px;
+    display: right;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.2s ease;
+    backdrop-filter: blur(5px);
+}
+
+.icon-btn:hover {
+    background: rgba(0, 0, 0, 0.25);
+    transform: translateY(-2px);
+}
+
+.icon-btn.delete {
+    background: rgba(0, 0, 0, 0.25);
+}
+
+.icon-btn.delete:hover {
+    background: rgba(0, 0, 0, 0.4);
+}
+
+.icon-btn svg {
+    width: 20px;
+    height: 20px;
+    stroke-width: 2.2px;
+}
+/* Cute Tag Badges on Cards */
+.note-tags {
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 10px;
+    position: relative;
+}
+
+.tag-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    margin: 3px;
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(6px);
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 500;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    letter-spacing: 0.3px;
+    transition: 0.2s; 
+}
+
+/* Hover animation */
+.tag-badge:hover {
+    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.35);
+}
+#toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 99999;
+}
+
+.toast {
+    background: #333;
+    color: white;
+    padding: 12px 18px;
+    border-radius: 10px;
+    font-size: 14px;
+    animation: slideIn 0.4s forwards, fadeOut 0.4s 2.4s forwards;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+@keyframes toastIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0px);
+    }
+}
+
+@keyframes toastOut {
+    from {
+        opacity: 1;
+        transform: translateY(0px);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+}
+
+.toast {
+    animation: toastSlide 0.4s ease forwards;
+}
+
+@keyframes toastSlide {
+    from { opacity: 0; transform: translateX(20px); }
+    to   { opacity: 1; transform: translateX(0); }
+}
+.sweetalert-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999999;
+}
+
+.sweetalert-box {
+    background: #fff;
+    padding: 25px;
+    border-radius: 15px;
+    width: 320px;
+    text-align: center;
+    animation: pop 0.3s;
+}
+
+@keyframes pop {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.sw-buttons {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.sw-cancel {
+    background: #aaa;
+    color: white;
+    padding: 10px 18px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.sw-delete {
+    background: #e63946;
+    color: white;
+    padding: 10px 18px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+/* FORCE card hover animation */
+.notes-grid .card {
+    transition: transform 1.00s ease, box-shadow 1.00s ease !important;
+}
+
+.notes-grid .card:hover {
+    transform: translateY(-5px) !important;
+    box-shadow: 0 8px 22px rgba(0,0,0,0.15) !important;
+}
+.icon{
+    transition: transform 1.00s ease, box-shadow 1.00s ease !important;
+}
+.icon:hover{
+    transform: translateY(-4px) !important;
+    box-shadow: 0 8px 22px rgba(0,0,0,0.15) !important;
+}
